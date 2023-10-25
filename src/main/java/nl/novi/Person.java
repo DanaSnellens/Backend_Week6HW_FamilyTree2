@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Person {
+
+    //Attributen Person class
     private String name;
     private String middleName;
     private String lastName;
@@ -14,8 +16,9 @@ public class Person {
 
     private List<Person> siblings;
     private List<Person> children;
-    private List<Person> pets;
+    private List<Pet> pets;
 
+    //Constructors Person class
     public Person(String name, String lastName, String sex, int age) {
         this.name = name;
         this.lastName = lastName;
@@ -31,6 +34,7 @@ public class Person {
         this.age = age;
     }
 
+    // Getters & setters Person class
     public String getName() {
         return name;
     }
@@ -99,29 +103,29 @@ public class Person {
         return children;
     }
 
-}
-
     public void setChildren(List<Person> children) {
         this.children = children;
     }
 
-    public List<Person> getPets() {
+    public List<Pet> getPets() {
         return pets;
     }
 
-    public void setPets(List<Person> pets) {
+    public void setPets(List<Pet> pets) {
         this.pets = pets;
     }
 
-
+    //Methods Person class
     public void addParents(Person mother, Person father, Person child){
         child.setFather(father);
         child.setMother(mother);
+        father.addChild(father, child);
+        mother.addChild(mother, child);
     }
 
     public void addChild(Person parent, Person child){
         List<Person> children = new ArrayList<>();
-        if(parent.getchildren() != null){
+        if(parent.getChildren()  != null){
             for (Person person : parent.getChildren()) {
                 children.add(person);
             }
@@ -130,12 +134,41 @@ public class Person {
         parent.setChildren(children);
     }
 
-    //in list?\
+    //ONDERSTAANDE ZELF (BUITEN HW-KLAS) GEDAAN, DUS NOT SURE
 
-    public void addPet(Pet pet){}
+    public void addPet(Person person, Pet pet){
+        List<Pet> pets = new ArrayList<>();
+        if(person.getPets() !=null){
+            for (Pet owner :getPets()) {
+                pets.add(owner);
+            }
+        }
+        pets.add(pet);
+        person.setPets(pets);
+    }
 
-    public void addSibling(){}
+    public void addSibling(Person person, Person sibling){
+        List<Person> siblings = new ArrayList<>();
+        if(person.getSiblings() != null) {
+            for (Person p : getSiblings()) {
+                siblings.add(p);
+            }
+        }
+        siblings.add(sibling);
+        person.setSiblings(siblings);
+    }
 
-    public void getGrandChildren(){}
+    public List<Person> getGrandChildren(Person parent){
+        List<Person> grandChildren = new ArrayList<>();
+        if (parent.getChildren() != null)
+            for (Person children: parent.getChildren()){
+                if (children.getChildren() != null){
+                    for (Person child : children.getChildren()){
+                        grandChildren.add(children);
+                    }
+                }
+            }
+        return grandChildren;
+    }
 }
 
